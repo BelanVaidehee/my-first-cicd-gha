@@ -1,26 +1,31 @@
-name: Node.js CI
+name: CodeQL Analysis
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  run-js:
+  analyze:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
       with:
-        node-version: '18'
+        languages: javascript
 
-    - name: Install dependencies
-      run: npm install
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
 
-    - name: Run Hello World
-      run: node hello.js
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
