@@ -11,9 +11,6 @@ const connection = mysql.createConnection({
   database: 'testdb'
 });
 
-// Middleware to parse URL-encoded bodies (form data)
-app.use(express.urlencoded({ extended: true }));
-
 // Vulnerable: SQL Injection
 app.get('/user', (req, res) => {
   const userId = req.query.id;
@@ -23,22 +20,6 @@ app.get('/user', (req, res) => {
       return res.status(500).send('DB error');
     }
     res.send(results);
-  });
-});
-
-// Vulnerable: XSS
-app.get('/greet', (req, res) => {
-  const name = req.query.name;
-  res.send(`<h1>Hello, ${name}</h1>`); // XSS if input is not sanitized
-});
-
-// Vulnerable: Command Injection (if using child_process)
-const { exec } = require('child_process');
-app.get('/ping', (req, res) => {
-  const host = req.query.host;
-  exec(`ping -c 1 ${host}`, (err, stdout, stderr) => { // Command injection
-    if (err) return res.status(500).send(stderr);
-    res.send(`<pre>${stdout}</pre>`);
   });
 });
 
