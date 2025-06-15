@@ -22,7 +22,3 @@ app.get('/user', (req, res) => {
     res.send(results);
   });
 });
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
