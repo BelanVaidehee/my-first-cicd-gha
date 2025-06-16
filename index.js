@@ -5,7 +5,7 @@ const app = express();
 // Vulnerable: Hardcoded credentials
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
+  user: 'roott',
   password: 'pass12345', // Hardcoded secret
   database: 'testdb'
 });
